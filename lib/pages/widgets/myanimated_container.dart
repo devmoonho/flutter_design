@@ -26,7 +26,7 @@ class _MyAnimatedContainerState extends State<MyAnimatedContainer> {
               width: _selected ? 200.0 : 100.0,
               height: _selected ? 100.0 : 200.0,
               color: _selected ? Colors.blue : Colors.red,
-              duration: Duration(seconds: 2),
+              duration: Duration(milliseconds: 500),
               curve: Curves.fastOutSlowIn,
               child: const FlutterLogo(size: 50),
             ),

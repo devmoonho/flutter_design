@@ -7,6 +7,17 @@ import 'package:design/pages/widgets/myanimated_list.dart';
 import 'package:design/pages/widgets/myanimated_modalbarrier.dart';
 import 'package:design/pages/widgets/myanimated_opacity.dart';
 import 'package:design/pages/widgets/myanimated_physicalmodel.dart';
+import 'package:design/pages/widgets/myanimated_positioned.dart';
+import 'package:design/pages/widgets/myanimated_size.dart';
+import 'package:design/pages/widgets/myanimated_widget.dart';
+import 'package:design/pages/widgets/mydecoratedbox_transition.dart';
+import 'package:design/pages/widgets/myfade_transition.dart';
+import 'package:design/pages/widgets/myhero.dart';
+import 'package:design/pages/widgets/mypositioned_transition.dart';
+import 'package:design/pages/widgets/myrotation_transition.dart';
+import 'package:design/pages/widgets/myscale_transition.dart';
+import 'package:design/pages/widgets/mysize_transition.dart';
+import 'package:design/pages/widgets/myslide_transition.dart';
 import 'package:flutter/material.dart';
 
 typedef Callback = void Function(dynamic value);
@@ -26,6 +37,17 @@ class _AnimationPageState extends State<AnimationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              MySlideTransition(),
+              MySizeTransition(),
+              MyScaleTransition(),
+              MyRotationTransition(),
+              MyPositionedTransition(),
+              MyHero(),
+              MyFadeTransition(),
+              MyDecoratedBoxTransition(),
+              MyAnimatedWidget(),
+              MyAnimatedSize(),
+              MyAnimatedPositioned(),
               MyAnimatedPhysicalModel(),
               MyAnimatedOpacity(),
               MyAnimatedModalBarrier(),
