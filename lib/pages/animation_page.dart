@@ -4,6 +4,7 @@ import 'package:design/pages/widgets/myanimated_container.dart';
 import 'package:design/pages/widgets/myanimated_crossfade.dart';
 import 'package:design/pages/widgets/myanimated_defaluttextstyle.dart';
 import 'package:design/pages/widgets/myanimated_list.dart';
+import 'package:design/pages/widgets/myanimated_modalbarrier.dart';
 import 'package:flutter/material.dart';
 
 typedef Callback = void Function(dynamic value);
@@ -35,6 +36,7 @@ class _AnimationPageState extends State<AnimationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              MyAnimatedModalBarrier(),
               MyAnimatedList(),
               MyAnimatedDefalutTextStyle(refresh: refresh, selected: selectedDefalutTextStyle),
               MyAnimatedAlign(refresh: refresh, selected: selectedAlign),
