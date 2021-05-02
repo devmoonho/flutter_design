@@ -13,7 +13,7 @@ class _MySlideTransitionState extends State<MySlideTransition> with TickerProvid
 
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(1.5, 0.0),
+    end: const Offset(0.5, 0.5),
   ).animate(
     CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
   );
