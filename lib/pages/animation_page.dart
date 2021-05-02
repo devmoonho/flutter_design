@@ -5,6 +5,8 @@ import 'package:design/pages/widgets/myanimated_crossfade.dart';
 import 'package:design/pages/widgets/myanimated_defaluttextstyle.dart';
 import 'package:design/pages/widgets/myanimated_list.dart';
 import 'package:design/pages/widgets/myanimated_modalbarrier.dart';
+import 'package:design/pages/widgets/myanimated_opacity.dart';
+import 'package:design/pages/widgets/myanimated_physicalmodel.dart';
 import 'package:flutter/material.dart';
 
 typedef Callback = void Function(dynamic value);
@@ -36,13 +38,15 @@ class _AnimationPageState extends State<AnimationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              MyAnimatedPhysicalModel(),
+              MyAnimatedOpacity(),
               MyAnimatedModalBarrier(),
               MyAnimatedList(),
-              MyAnimatedDefalutTextStyle(refresh: refresh, selected: selectedDefalutTextStyle),
-              MyAnimatedAlign(refresh: refresh, selected: selectedAlign),
+              MyAnimatedDefalutTextStyle(),
+              MyAnimatedAlign(),
               MyAnimatedBuilder(),
-              MyAnimatedContainer(refresh: refresh, selected: selectedContainer),
-              MyAnimatedCrossFade(refresh: refresh, selected: selectedCrossFade),
+              MyAnimatedContainer(),
+              MyAnimatedCrossFade(),
             ].map((e) => Padding(padding: const EdgeInsets.all(20), child: e)).toList(),
           ),
         ),

@@ -28,7 +28,7 @@ class _MyAnimatedModalBarrierState extends State<MyAnimatedModalBarrier> with Ti
     return Container(
       child: Column(
         children: [
-          Text('animatedModalBarrier'),
+          Text('AnimatedModalBarrier'),
           Container(height: 200, width: 200, child: _animatedModalBarrier),
         ],
       ),

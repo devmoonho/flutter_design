@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../animation_page.dart';
-
 class MyAnimatedDefalutTextStyle extends StatefulWidget {
-  final Callback refresh;
-  late final bool selected;
-
-  MyAnimatedDefalutTextStyle({required this.refresh, required this.selected});
+  MyAnimatedDefalutTextStyle();
 
   @override
   _MyAnimatedDefalutTextStyleState createState() => _MyAnimatedDefalutTextStyleState();
@@ -19,12 +14,14 @@ class _MyAnimatedDefalutTextStyleState extends State<MyAnimatedDefalutTextStyle>
     'fontWeight': FontWeight.w100,
   };
 
+  bool _selected = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() => _setTextStyle(widget.selected));
-        widget.refresh({MyAnimatedDefalutTextStyle: !widget.selected});
+        _selected = !_selected;
+        setState(() => _setTextStyle(_selected));
       },
       child: Column(
         children: [

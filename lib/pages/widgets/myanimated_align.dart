@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../animation_page.dart';
-
 class MyAnimatedAlign extends StatefulWidget {
-  final Callback refresh;
-  late final bool selected;
-  MyAnimatedAlign({required this.refresh, required this.selected});
+  MyAnimatedAlign();
 
   @override
   _MyAnimatedAlignState createState() => _MyAnimatedAlignState();
 }
 
 class _MyAnimatedAlignState extends State<MyAnimatedAlign> {
+  bool _selected = false;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +21,7 @@ class _MyAnimatedAlignState extends State<MyAnimatedAlign> {
       padding: const EdgeInsets.all(12.0),
       child: GestureDetector(
         onTap: () {
-          widget.refresh({MyAnimatedAlign: !widget.selected});
+          _selected = !_selected;
         },
         child: Column(
           children: [
@@ -34,7 +32,7 @@ class _MyAnimatedAlignState extends State<MyAnimatedAlign> {
                 width: 200.0,
                 color: Colors.blue,
                 child: AnimatedAlign(
-                  alignment: widget.selected ? Alignment.topRight : Alignment.bottomLeft,
+                  alignment: _selected ? Alignment.topRight : Alignment.bottomLeft,
                   duration: Duration(seconds: 1),
                   curve: Curves.fastOutSlowIn,
                   child: const FlutterLogo(size: 50.0),
