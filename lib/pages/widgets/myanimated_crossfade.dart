@@ -18,23 +18,20 @@ class _MyAnimatedCrossFade extends State<MyAnimatedCrossFade> {
       onTap: () {
         widget.refresh({MyAnimatedCrossFade: !widget.selected});
       },
-      child: Padding(
-        padding: const EdgeInsets.all(50),
-        child: Column(
-          children: [
-            Text('AnimatedCrossFade'),
-            Container(
-              child: AnimatedCrossFade(
-                crossFadeState: widget.selected ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: Duration(seconds: 3),
-                firstCurve: Curves.bounceIn,
-                secondCurve: Curves.fastOutSlowIn,
-                firstChild: _firstWidget(),
-                secondChild: _secondWidget(),
-              ),
+      child: Column(
+        children: [
+          Text('AnimatedCrossFade'),
+          Container(
+            child: AnimatedCrossFade(
+              crossFadeState: widget.selected ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: Duration(seconds: 3),
+              firstCurve: Curves.bounceIn,
+              secondCurve: Curves.fastOutSlowIn,
+              firstChild: _firstWidget(),
+              secondChild: _secondWidget(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -21,33 +21,30 @@ class _MyAnimatedDefalutTextStyleState extends State<MyAnimatedDefalutTextStyle>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: GestureDetector(
-        onTap: () {
-          setState(() => _setTextStyle(widget.selected));
-          widget.refresh({MyAnimatedDefalutTextStyle: !widget.selected});
-        },
-        child: Column(
-          children: [
-            Text('AnimatedDefalutTextStyle'),
-            Container(
-              height: 100,
-              width: 300,
-              color: Colors.blue,
-              child: AnimatedDefaultTextStyle(
-                duration: Duration(seconds: 1),
-                curve: Curves.fastOutSlowIn,
-                style: TextStyle(
-                  fontSize: mapTextStyle['fontSize'] * 1.0,
-                  color: mapTextStyle['fontColor'],
-                  fontWeight: mapTextStyle['fontWeight'],
-                ),
-                child: Center(child: Text('Flutter')),
+    return GestureDetector(
+      onTap: () {
+        setState(() => _setTextStyle(widget.selected));
+        widget.refresh({MyAnimatedDefalutTextStyle: !widget.selected});
+      },
+      child: Column(
+        children: [
+          Text('AnimatedDefalutTextStyle'),
+          Container(
+            height: 100,
+            width: 300,
+            color: Colors.blue,
+            child: AnimatedDefaultTextStyle(
+              duration: Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              style: TextStyle(
+                fontSize: mapTextStyle['fontSize'] * 1.0,
+                color: mapTextStyle['fontColor'],
+                fontWeight: mapTextStyle['fontWeight'],
               ),
+              child: Center(child: Text('Flutter')),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

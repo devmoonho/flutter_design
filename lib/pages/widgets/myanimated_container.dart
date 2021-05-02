@@ -20,24 +20,21 @@ class _MyAnimatedContainerState extends State<MyAnimatedContainer> {
           widget.refresh({MyAnimatedContainer: !widget.selected});
         });
       },
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: Column(
-          children: [
-            Text('AnimatedContainer'),
-            Center(
-              child: AnimatedContainer(
-                alignment: Alignment.center,
-                width: widget.selected ? 200.0 : 100.0,
-                height: widget.selected ? 100.0 : 200.0,
-                color: widget.selected ? Colors.blue : Colors.red,
-                duration: Duration(seconds: 2),
-                curve: Curves.fastOutSlowIn,
-                child: const FlutterLogo(size: 50),
-              ),
+      child: Column(
+        children: [
+          Text('AnimatedContainer'),
+          Center(
+            child: AnimatedContainer(
+              alignment: Alignment.center,
+              width: widget.selected ? 200.0 : 100.0,
+              height: widget.selected ? 100.0 : 200.0,
+              color: widget.selected ? Colors.blue : Colors.red,
+              duration: Duration(seconds: 2),
+              curve: Curves.fastOutSlowIn,
+              child: const FlutterLogo(size: 50),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

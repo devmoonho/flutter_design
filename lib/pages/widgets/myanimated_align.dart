@@ -19,12 +19,12 @@ class _MyAnimatedAlignState extends State<MyAnimatedAlign> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.refresh({MyAnimatedAlign: !widget.selected});
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: GestureDetector(
+        onTap: () {
+          widget.refresh({MyAnimatedAlign: !widget.selected});
+        },
         child: Column(
           children: [
             Text('AnimatedAlign'),

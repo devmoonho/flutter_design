@@ -20,30 +20,27 @@ class _MyAnimatedBuilder extends State<MyAnimatedBuilder> with TickerProviderSta
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(40.0),
-      child: Column(
-        children: [
-          Text('AnimatedBuilder'),
-          AnimatedBuilder(
-            animation: _controller,
-            child: Container(
-              width: 200,
-              height: 200,
-              color: Colors.green,
-              child: const Center(
-                child: Text('Whee'),
-              ),
+    return Column(
+      children: [
+        Text('AnimatedBuilder'),
+        AnimatedBuilder(
+          animation: _controller,
+          child: Container(
+            width: 200,
+            height: 200,
+            color: Colors.green,
+            child: const Center(
+              child: Text('Whee'),
             ),
-            builder: (_, Widget? child) {
-              return Transform.rotate(
-                angle: _controller.value * 4 * math.pi,
-                child: child,
-              );
-            },
           ),
-        ],
-      ),
+          builder: (_, Widget? child) {
+            return Transform.rotate(
+              angle: _controller.value * 4 * math.pi,
+              child: child,
+            );
+          },
+        ),
+      ],
     );
   }
 }
