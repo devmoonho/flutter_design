@@ -17,18 +17,6 @@ class AnimationPage extends StatefulWidget {
 }
 
 class _AnimationPageState extends State<AnimationPage> {
-  bool selectedAlign = false;
-  bool selectedContainer = false;
-  bool selectedCrossFade = false;
-  bool selectedDefalutTextStyle = false;
-
-  refresh(dynamic map) => setState(() {
-        selectedDefalutTextStyle = map[MyAnimatedDefalutTextStyle] ?? selectedDefalutTextStyle;
-        selectedAlign = map[MyAnimatedAlign] ?? selectedAlign;
-        selectedContainer = map[MyAnimatedContainer] ?? selectedContainer;
-        selectedCrossFade = map[MyAnimatedCrossFade] ?? selectedCrossFade;
-      });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

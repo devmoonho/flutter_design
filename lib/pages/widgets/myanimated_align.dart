@@ -21,7 +21,9 @@ class _MyAnimatedAlignState extends State<MyAnimatedAlign> {
       padding: const EdgeInsets.all(12.0),
       child: GestureDetector(
         onTap: () {
-          _selected = !_selected;
+          setState(() {
+            _selected = !_selected;
+          });
         },
         child: Column(
           children: [
