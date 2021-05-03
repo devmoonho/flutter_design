@@ -1,6 +1,5 @@
+import 'package:design/pages/hero_page.dart';
 import 'package:flutter/material.dart';
-
-import '../hero_page.dart';
 
 class MyHero extends StatefulWidget {
   @override
