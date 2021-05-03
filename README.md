@@ -1,6 +1,5 @@
-# design
+# Flutter Animation Widget
 
-A new Flutter project.
 The base code of the flutter animation widget
 You can check the usage examples.
 
