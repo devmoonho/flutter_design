@@ -1,6 +1,49 @@
-# design
+# Flutter Animation Widget
 
-A new Flutter project.
+The base code of the flutter animation widget
+
+You can check the usage examples.
+
+✅SlideTransition
+
+✅SizeTransition
+
+✅ScaleTransition
+
+✅RotationTransition
+
+✅PositionedTransition
+
+✅Hero
+
+✅FadeTransition
+
+✅DecoratedBoxTransition
+
+✅AnimatedWidget 
+
+✅AnimatedSize
+
+✅AnimatedPositioned
+
+✅AnimatedPhysicalModel
+
+✅AnimatedOpacity
+
+✅AnimatedModalBarrier
+
+✅AnimatedList
+
+✅AnimatedDefalutTextStyle
+
+✅AnimatedAlign
+
+✅AnimatedBuilder
+
+✅AnimatedContainer
+
+✅AnimatedCrossFade
+
 
 ## Getting Started
 
