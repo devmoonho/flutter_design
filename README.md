@@ -2,7 +2,7 @@
 
 The base code of the flutter design widget
 
-## clipping Widget 
+## Clipping Widget 
 
 ✅ClipRect
 
