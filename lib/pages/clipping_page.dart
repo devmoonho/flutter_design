@@ -19,10 +19,10 @@ class _ClippingPageState extends State<ClippingPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              MyClipPath(),
               MyClipRect(),
               MyClipRRect(),
               MyClipOval(),
-              MyClipPath(),
             ].map((e) => Padding(padding: const EdgeInsets.all(20), child: e)).toList(),
           ),
         ),

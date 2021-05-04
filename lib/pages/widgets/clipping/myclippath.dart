@@ -35,17 +35,39 @@ class MyClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     var path = new Path();
     path.lineTo(0, size.height - 50);
-    var controllerPoint = Offset(50, size.height);
-    var endPoint = Offset(size.width / 2, size.height);
-    path.quadraticBezierTo(controllerPoint.dx, controllerPoint.dy, endPoint.dx, endPoint.dy);
 
-    path.lineTo(size.width, size.height);
+    BaseLine bl = BaseLine(sx: 0.0, sy: size.height - 50, ex: size.width, ey: size.height);
+    path.quadraticBezierTo(size.width / 4, bl.getY(size.width / 4) + 30, size.width / 2, bl.getY(size.width / 2));
+    path.quadraticBezierTo(size.width * 3 / 4, bl.getY(size.width * 3 / 4) - 30, size.width, size.height);
     path.lineTo(size.width, 0);
+    path.close();
     return path;
   }
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
+  }
+}
+
+class BaseLine {
+  final double sx;
+  final double sy;
+  final double ex;
+  final double ey;
+  double? m;
+  double? b;
+
+  BaseLine({required this.sx, required this.sy, required this.ex, required this.ey}) {
+    m = (ey - sy) / (ex - sx);
+    b = sy - (sx * m!);
+  }
+
+  double getX(double y) {
+    return (y - b!) / m!;
+  }
+
+  double getY(double x) {
+    return m! * x + b!;
   }
 }
