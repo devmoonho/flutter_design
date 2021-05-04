@@ -8,35 +8,39 @@ class MyClipPath extends StatefulWidget {
 class _MyClipPathState extends State<MyClipPath> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        ClipPath(
-          clipper: MyClipper1(),
-          child: Container(
-            height: 400,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          ),
-        ),
-        ClipPath(
-          clipper: MyClipper2(),
-          child: Container(
-            height: 300,
-            decoration: BoxDecoration(
-              color: Colors.red,
-            ),
-            child: Center(
-              child: Text(
-                'ClipPath',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
+        Stack(
+          children: [
+            ClipPath(
+              clipper: MyClipper1(),
+              child: Container(
+                height: 400,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
               ),
             ),
-          ),
+            ClipPath(
+              clipper: MyClipper2(),
+              child: Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                ),
+                child: Center(
+                  child: Text(
+                    'ClipPath',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
