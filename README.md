@@ -1,8 +1,18 @@
-# Flutter Animation Widget
+# Flutter Design Widget
 
-The base code of the flutter animation widget
+The base code of the flutter design widget
 
-You can check the usage examples.
+## Clipping Widget 
+
+✅ClipRect
+
+✅ClipRRect
+
+✅ClipOval
+
+✅ClipPath
+
+## Animation Widget
 
 ✅SlideTransition
 
