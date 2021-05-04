@@ -8,37 +8,70 @@ class MyClipPath extends StatefulWidget {
 class _MyClipPathState extends State<MyClipPath> {
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: MyClipper(),
-      child: Container(
-        height: 300,
-        decoration: BoxDecoration(
-          color: Colors.red,
-        ),
-        child: Center(
-          child: Text(
-            'ClipPath',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 40,
+    return Stack(
+      children: [
+        ClipPath(
+          clipper: MyClipper1(),
+          child: Container(
+            height: 400,
+            decoration: BoxDecoration(
+              color: Colors.blue,
             ),
           ),
         ),
-      ),
+        ClipPath(
+          clipper: MyClipper2(),
+          child: Container(
+            height: 300,
+            decoration: BoxDecoration(
+              color: Colors.red,
+            ),
+            child: Center(
+              child: Text(
+                'ClipPath',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-class MyClipper extends CustomClipper<Path> {
+class MyClipper1 extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = new Path();
+    BaseLine bl = BaseLine(sx: 0.0, sy: size.height - 200, ex: size.width, ey: size.height - 50);
+
+    path.lineTo(0, size.height - 200);
+    path.quadraticBezierTo(size.width / 4, bl.getY(size.width / 4) - 70, size.width / 2, bl.getY(size.width / 2));
+    path.quadraticBezierTo(size.width * 3 / 4, bl.getY(size.width * 3 / 4) + 70, size.width, size.height - 50);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class MyClipper2 extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = new Path();
-    path.lineTo(0, size.height - 50);
+    BaseLine bl = BaseLine(sx: 0.0, sy: size.height - 100, ex: size.width, ey: size.height - 50);
 
-    BaseLine bl = BaseLine(sx: 0.0, sy: size.height - 50, ex: size.width, ey: size.height);
-    path.quadraticBezierTo(size.width / 4, bl.getY(size.width / 4) + 30, size.width / 2, bl.getY(size.width / 2));
-    path.quadraticBezierTo(size.width * 3 / 4, bl.getY(size.width * 3 / 4) - 30, size.width, size.height);
+    path.lineTo(0, size.height - 100);
+    path.quadraticBezierTo(size.width / 4, bl.getY(size.width / 4) - 30, size.width / 2, bl.getY(size.width / 2));
+    path.quadraticBezierTo(size.width * 3 / 4, bl.getY(size.width * 3 / 4) + 30, size.width, size.height - 50);
     path.lineTo(size.width, 0);
     path.close();
     return path;
