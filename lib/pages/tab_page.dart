@@ -2,6 +2,7 @@ import 'package:design/pages/clipping_page.dart';
 import 'package:flutter/material.dart';
 
 import 'animation_page.dart';
+import 'blob_page.dart';
 import 'painter_page.dart';
 
 class TabPage extends StatelessWidget {
@@ -9,11 +10,15 @@ class TabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
+              isScrollable: true,
               tabs: [
+                Tab(
+                  child: Text('Blob'),
+                ),
                 Tab(
                   child: Text('Painter'),
                 ),
@@ -29,6 +34,7 @@ class TabPage extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
+              BlobPage(),
               PainterPage(),
               ClippingPage(),
               AnimationPage(),
