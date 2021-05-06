@@ -2,12 +2,12 @@ import 'package:design/pages/widgets/blob/myblob.dart';
 import 'package:design/pages/widgets/blob/mypainter.dart';
 import 'package:flutter/material.dart';
 
-class BlobPage extends StatefulWidget {
+class PainterPage extends StatefulWidget {
   @override
-  _BlobPageState createState() => _BlobPageState();
+  _PainterPageState createState() => _PainterPageState();
 }
 
-class _BlobPageState extends State<BlobPage> {
+class _PainterPageState extends State<PainterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,6 @@ class _BlobPageState extends State<BlobPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MyPainter(),
-              MyBlob(),
             ].map((e) => Padding(padding: const EdgeInsets.all(20), child: e)).toList(),
           ),
         ),

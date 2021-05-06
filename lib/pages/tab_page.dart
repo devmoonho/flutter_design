@@ -2,7 +2,7 @@ import 'package:design/pages/clipping_page.dart';
 import 'package:flutter/material.dart';
 
 import 'animation_page.dart';
-import 'blob_page.dart';
+import 'painter_page.dart';
 
 class TabPage extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class TabPage extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  child: Text('Blob'),
+                  child: Text('Painter'),
                 ),
                 Tab(
                   child: Text('Clipping'),
@@ -29,7 +29,7 @@ class TabPage extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              BlobPage(),
+              PainterPage(),
               ClippingPage(),
               AnimationPage(),
             ],
