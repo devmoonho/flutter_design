@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -19,6 +21,19 @@ class _MyPainterState extends State<MyPainter> {
               color: Colors.grey[200],
               child: CustomPaint(
                 painter: MyCustomPainter(),
+                child: Container(),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text('canvas.point'),
+            Container(
+              height: 300,
+              color: Colors.grey[200],
+              child: CustomPaint(
+                painter: MyCustomPainterPoint(),
                 child: Container(),
               ),
             ),
@@ -91,6 +106,48 @@ class _MyPainterState extends State<MyPainter> {
         ),
       ].map((e) => Padding(padding: EdgeInsets.all(10), child: e)).toList(),
     );
+  }
+}
+
+class MyCustomPainterPoint extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double padding = 30;
+
+    canvas.drawPoints(
+      PointMode.points,
+      List.generate(8, (i) => Offset(padding * (i + 1), padding)),
+      Paint()..strokeWidth = 10.0,
+    );
+
+    canvas.drawPoints(
+      PointMode.points,
+      List.generate(8, (i) => Offset(padding * (i + 1), padding * 2)),
+      Paint()
+        ..strokeWidth = 10.0
+        ..strokeCap = StrokeCap.round,
+    );
+
+    canvas.drawPoints(
+      PointMode.lines,
+      List.generate(8, (i) => Offset(padding * (i + 1), padding * 3)),
+      Paint()
+        ..strokeWidth = 10.0
+        ..strokeCap = StrokeCap.round,
+    );
+
+    canvas.drawPoints(
+      PointMode.polygon,
+      List.generate(8, (i) => Offset(padding * (i + 1), padding * 4)),
+      Paint()
+        ..strokeWidth = 10.0
+        ..strokeCap = StrokeCap.round,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
 
