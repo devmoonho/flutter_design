@@ -65,25 +65,10 @@ class _MyBlobState extends State<MyBlob> {
 }
 
 class Blob extends CustomPainter {
-  List<Offset> getPoint(Offset center, int count, double radius, double padding) {
-    double length = radius * 4;
-    double each = length / count;
-    double top = center.dy - radius;
-    double bottom = center.dy + radius;
-
+  List<Offset> getPoint(Offset center, int count, double radius) {
     MyCirclePoint cp = MyCirclePoint(center: center, radius: radius);
-
-    return List.generate(count, (i) {
-      double y = top + each * i;
-
-      if (y > bottom) {
-        y = bottom - (y - bottom);
-        return Offset(cp.getX(y, isOverDegree: true), y.toDouble());
-      } else {
-        return Offset(cp.getX(y, isOverDegree: false), y.toDouble());
-      }
-      // return Offset(center.dx, y.toDouble());
-    });
+    return List.generate(
+        count, (i) => cp.getOffset(cp.getX(center.dy, isOver180: false), center.dy, math.pi * 2 * (i / count)));
   }
 
   @override
@@ -91,7 +76,13 @@ class Blob extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final double padding = 10;
     double outRadius = math.min(size.width, size.height) / 2 - padding;
-    double inRadius = math.min(size.width, size.height) / 4.5 - padding;
+    double inRadius = math.min(size.width, size.height) / 6 - padding;
+    int count = 10;
+
+    List<Offset> outPoints = getPoint(center, count, outRadius);
+    List<Offset> inPoints = getPoint(center, count, inRadius);
+
+    MyCirclePoint cp = MyCirclePoint(center: center, radius: inRadius);
 
     // outCircle
     canvas.drawCircle(
@@ -99,6 +90,13 @@ class Blob extends CustomPainter {
       outRadius,
       Paint()..style = PaintingStyle.stroke,
     );
+
+    canvas.drawPoints(
+        PointMode.points,
+        outPoints,
+        Paint()
+          ..strokeWidth = 5.0
+          ..strokeCap = StrokeCap.round);
 
     // inCircle
     canvas.drawCircle(
@@ -109,10 +107,47 @@ class Blob extends CustomPainter {
 
     canvas.drawPoints(
         PointMode.points,
-        getPoint(center, 3 0, inRadius, padding),
+        inPoints,
         Paint()
           ..strokeWidth = 5.0
           ..strokeCap = StrokeCap.round);
+
+    inPoints.asMap().forEach(
+          (i, v) => canvas.drawLine(
+            inPoints[i],
+            outPoints[i],
+            Paint()
+              ..color = Colors.grey
+              ..strokeCap = StrokeCap.round,
+          ),
+        );
+
+    List<Offset> randomPoints = List.generate(count, (i) => cp.getRandomOffset(inPoints[i], outPoints[i]));
+
+    canvas.drawPoints(
+      PointMode.points,
+      randomPoints,
+      Paint()
+        ..color = Colors.blue
+        ..strokeWidth = 5.0
+        ..strokeCap = StrokeCap.round,
+    );
+
+    var path = new Path();
+    path.moveTo(randomPoints[0].dx, randomPoints[0].dy);
+    randomPoints.forEach((e) {
+      path.quadraticBezierTo(e.dx, e.dy, e.dx, e.dy);
+    });
+
+    path.close();
+
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = Colors.amber
+        ..strokeWidth = 10.0
+        ..style = PaintingStyle.fill,
+    );
   }
 
   @override
@@ -151,12 +186,12 @@ class BlobRandomPoint extends CustomPainter {
       PointMode.points,
       List.generate(divie, (i) {
         double ranY = getRandom(center, AXIS.Y, outRadius, padding);
-        return Offset(outPoint.getX(ranY, isOverDegree: false), ranY);
+        return Offset(outPoint.getX(ranY, isOver180: false), ranY);
       }).toList()
         ..addAll(
           List.generate(divie, (i) {
             double ranY = getRandom(center, AXIS.Y, outRadius, padding);
-            return Offset(outPoint.getX(ranY, isOverDegree: true), ranY);
+            return Offset(outPoint.getX(ranY, isOver180: true), ranY);
           }),
         ),
       Paint()
@@ -175,12 +210,12 @@ class BlobRandomPoint extends CustomPainter {
       PointMode.points,
       List.generate(divie, (i) {
         double ranY = getRandom(center, AXIS.Y, inRadius, padding);
-        return Offset(inPoint.getX(ranY, isOverDegree: false), ranY);
+        return Offset(inPoint.getX(ranY, isOver180: false), ranY);
       }).toList()
         ..addAll(
           List.generate(divie, (i) {
             double ranY = getRandom(center, AXIS.Y, inRadius, padding);
-            return Offset(inPoint.getX(ranY, isOverDegree: true), ranY);
+            return Offset(inPoint.getX(ranY, isOver180: true), ranY);
           }),
         ),
       Paint()
@@ -259,15 +294,38 @@ class MyCirclePoint {
 
   MyCirclePoint({required this.center, required this.radius});
 
-  double getX(double dy, {bool isOverDegree = true}) {
+  /*
+   * x' = (x-a) * cosR - (y-b) * sinR + a
+   * y' = (x-a) * sinR + (y-b) * cosR + b
+   */
+  Offset getOffset(double dx, double dy, double pi) {
+    final double x = (dx - center.dx) * math.cos(pi) - (dy - center.dy) * math.sin(pi) + center.dx;
+    final double y = (dx - center.dx) * math.sin(pi) + (dy - center.dy) * math.cos(pi) + center.dy;
+    return Offset(x, y);
+  }
+
+  // x` = sqrt(pow(r, 2) - pow(y - b, 2)) + a
+  double getX(double dy, {bool isOver180 = true}) {
     final x =
-        (isOverDegree ? -1 : 1) * math.sqrt((radius * radius - (dy - center.dy) * (dy - center.dy)).abs()) + center.dx;
+        (isOver180 ? -1 : 1) * math.sqrt((radius * radius - (dy - center.dy) * (dy - center.dy)).abs()) + center.dx;
     return x.toDouble();
   }
 
-  double getY(double dx, {bool isOverDegree = true}) {
+  // y` = sqrt(pow(r, 2) - pow(x - a, 2)) + b
+  double getY(double dx, {bool isOver180 = true}) {
     final y =
-        (isOverDegree ? -1 : 1) * math.sqrt((radius * radius - (dx - center.dx) * (dx - center.dx)).abs()) + center.dy;
+        (isOver180 ? -1 : 1) * math.sqrt((radius * radius - (dx - center.dx) * (dx - center.dx)).abs()) + center.dy;
     return y.toDouble();
+  }
+
+  Offset getRandomOffset(Offset a, Offset b) {
+    final rn = new math.Random();
+    final max = math.max(a.dx, b.dx);
+    final min = math.min(a.dx, b.dx);
+    final m = (a.dy - b.dy) / (a.dx - b.dx);
+
+    double ranX = min + rn.nextInt((max - min).round());
+    double ranY = m * (ranX - a.dx) + a.dy;
+    return Offset(ranX, ranY);
   }
 }
