@@ -2,6 +2,24 @@
 
 The base code of the flutter design widget
 
+## Draw Blob Design
+
+✅canvas.drawPath
+
+## Painter Widget 
+
+✅canvas.drawPoints
+
+✅canvas.drawLine
+
+✅canvas.drawArc
+
+✅canvas.drawRect
+
+✅canvas.drawRRect
+
+✅canvas.drawCircle
+
 ## Clipping Widget 
 
 ✅ClipRect
