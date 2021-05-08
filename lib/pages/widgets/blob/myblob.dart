@@ -51,7 +51,7 @@ class Blob extends CustomPainter {
     final double padding = 10;
     double outRadius = math.min(size.width, size.height) / 2 - padding;
     double inRadius = math.min(size.width, size.height) / 6 - padding;
-    int count = 7;
+    int count = 6;
 
     List<Offset> outPoints = getPoint(center, count, outRadius);
     List<Offset> inPoints = getPoint(center, count, inRadius);
@@ -83,8 +83,7 @@ class Blob extends CustomPainter {
       path,
       Paint()
         ..color = Colors.amber
-        ..strokeWidth = 2.0
-        ..style = PaintingStyle.stroke,
+        ..style = PaintingStyle.fill,
     );
 
     // outCircle
@@ -177,12 +176,18 @@ class MyCirclePoint {
 
   Offset getRandomOffset(Offset a, Offset b) {
     final rn = new math.Random();
-    final max = math.max(a.dx, b.dx);
-    final min = math.min(a.dx, b.dx);
-    final m = (a.dy - b.dy) / (a.dx - b.dx);
+    final double max = math.max(a.dx, b.dx);
+    final double min = math.min(a.dx, b.dx);
+    final double m = (a.dy - b.dy) / (a.dx - b.dx);
+    int ran = max.round() - min.round();
 
-    double ranX = min + rn.nextInt((max - min).round());
-    double ranY = m * (ranX - a.dx) + a.dy;
+    if (ran == 0)
+      ran = 1;
+    else if (ran < 0) ran = ran.abs();
+
+    double ranX = min + rn.nextInt(ran);
+    double ranY = (m.isInfinite ? 0 : m) * (ranX - a.dx) + a.dy;
+
     return Offset(ranX, ranY);
   }
 }
