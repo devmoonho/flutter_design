@@ -33,32 +33,6 @@ class _MyBlobState extends State<MyBlob> {
             ),
           ],
         ),
-        Column(
-          children: [
-            Text('Blob Random Point'),
-            Container(
-              height: 300,
-              color: Colors.grey[200],
-              child: CustomPaint(
-                painter: BlobRandomPoint(),
-                child: Container(),
-              ),
-            ),
-          ],
-        ),
-        Column(
-          children: [
-            Text('Blob Point'),
-            Container(
-              height: 300,
-              color: Colors.grey[200],
-              child: CustomPaint(
-                painter: BlobPoint(),
-                child: Container(),
-              ),
-            ),
-          ],
-        ),
       ].map((e) => Padding(padding: EdgeInsets.all(10), child: e)).toList(),
     );
   }
@@ -83,6 +57,35 @@ class Blob extends CustomPainter {
     List<Offset> inPoints = getPoint(center, count, inRadius);
 
     MyCirclePoint cp = MyCirclePoint(center: center, radius: inRadius);
+
+    List<Offset> ranP = List.generate(count, (i) => cp.getRandomOffset(inPoints[i], outPoints[i]));
+
+    canvas.drawPoints(
+      PointMode.points,
+      ranP,
+      Paint()
+        ..color = Colors.blue
+        ..strokeWidth = 5.0
+        ..strokeCap = StrokeCap.round,
+    );
+
+    var path = new Path();
+    List<List<double>> curves = _createCurves(ranP);
+    Offset start = (ranP[0] + ranP[1]) / 2;
+    path.moveTo(start.dx, start.dy);
+
+    curves.forEach((curve) {
+      path.quadraticBezierTo(curve[0], curve[1], curve[2], curve[3]);
+    });
+    path.close();
+
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = Colors.amber
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke,
+    );
 
     // outCircle
     canvas.drawCircle(
@@ -121,181 +124,19 @@ class Blob extends CustomPainter {
               ..strokeCap = StrokeCap.round,
           ),
         );
-
-    List<Offset> ranP = List.generate(count, (i) => cp.getRandomOffset(inPoints[i], outPoints[i]));
-
-    canvas.drawPoints(
-      PointMode.points,
-      ranP,
-      Paint()
-        ..color = Colors.blue
-        ..strokeWidth = 5.0
-        ..strokeCap = StrokeCap.round,
-    );
-
-    var path = new Path();
-    List<List<double>> curves = _createCurves(ranP);
-    Offset mid = (ranP[0] + ranP[1]) / 2;
-    path.moveTo(mid.dx, mid.dy);
-    curves.forEach((curve) {
-      path.quadraticBezierTo(curve[0], curve[1], curve[2], curve[3]);
-    });
-    path.close();
-
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = Colors.amber
-        ..strokeWidth = 2.0
-        ..style = PaintingStyle.stroke,
-    );
   }
 
-  List<List<double>> _createCurves(List<Offset> points) {
+  List<List<double>> _createCurves(List<Offset> ranPs) {
     List<List<double>> curves = [];
-    List<Offset> breakpoints = [];
-    Offset mid = (points[0] + points[1]) / 2;
-    breakpoints.add(mid);
-    for (var i = 0; i < points.length; i++) {
-      var p1 = points[(i + 1) % points.length];
-      var p2 = points[(i + 2) % points.length];
-      mid = (p1 + p2) / 2;
-      breakpoints.add(mid);
-      curves.add([p1.dx, p1.dy, mid.dx, mid.dy]);
+    Offset nextP = (ranPs[0] + ranPs[1]) / 2;
+
+    for (var i = 0; i < ranPs.length; i++) {
+      var cp1 = ranPs[(i + 1) % ranPs.length];
+      var cp2 = ranPs[(i + 2) % ranPs.length];
+      nextP = (cp1 + cp2) / 2;
+      curves.add([cp1.dx, cp1.dy, nextP.dx, nextP.dy]);
     }
     return curves;
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class BlobRandomPoint extends CustomPainter {
-  double getRandom(Offset c, AXIS a, double r, double p) {
-    double axis = a == AXIS.X ? c.dx : c.dy;
-    int top = p.round() + axis.round() - r.round();
-    int ran = top + math.Random().nextInt(axis.round() + r.round() - top);
-    return ran.toDouble();
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final double padding = 10;
-    double outRadius = math.min(size.width, size.height) / 2 - padding;
-    double inRadius = math.min(size.width, size.height) / 4.5 - padding;
-
-    MyCirclePoint outPoint = MyCirclePoint(center: center, radius: outRadius);
-    MyCirclePoint inPoint = MyCirclePoint(center: center, radius: inRadius);
-    int divie = 2;
-
-    // outCircle
-    canvas.drawCircle(
-      center,
-      outRadius,
-      Paint()..style = PaintingStyle.stroke,
-    );
-
-    canvas.drawPoints(
-      PointMode.points,
-      List.generate(divie, (i) {
-        double ranY = getRandom(center, AXIS.Y, outRadius, padding);
-        return Offset(outPoint.getX(ranY, isOver180: false), ranY);
-      }).toList()
-        ..addAll(
-          List.generate(divie, (i) {
-            double ranY = getRandom(center, AXIS.Y, outRadius, padding);
-            return Offset(outPoint.getX(ranY, isOver180: true), ranY);
-          }),
-        ),
-      Paint()
-        ..strokeWidth = 5.0
-        ..strokeCap = StrokeCap.round,
-    );
-
-    // inCircle
-    canvas.drawCircle(
-      center,
-      inRadius,
-      Paint()..style = PaintingStyle.stroke,
-    );
-
-    canvas.drawPoints(
-      PointMode.points,
-      List.generate(divie, (i) {
-        double ranY = getRandom(center, AXIS.Y, inRadius, padding);
-        return Offset(inPoint.getX(ranY, isOver180: false), ranY);
-      }).toList()
-        ..addAll(
-          List.generate(divie, (i) {
-            double ranY = getRandom(center, AXIS.Y, inRadius, padding);
-            return Offset(inPoint.getX(ranY, isOver180: true), ranY);
-          }),
-        ),
-      Paint()
-        ..strokeWidth = 5.0
-        ..strokeCap = StrokeCap.round,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class BlobPoint extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final double padding = 10;
-    double outRadius = math.min(size.width, size.height) / 2 - padding;
-    double inRadius = math.min(size.width, size.height) / 4.5 - padding;
-
-    MyCirclePoint outPoint = MyCirclePoint(center: center, radius: outRadius);
-    MyCirclePoint inPoint = MyCirclePoint(center: center, radius: inRadius);
-
-    // outCircle
-    canvas.drawCircle(
-      center,
-      outRadius,
-      Paint()..style = PaintingStyle.stroke,
-    );
-
-    canvas.drawPoints(
-      PointMode.points,
-      [
-        Offset(size.width / 2 + outRadius, outPoint.getY(size.width / 2 + outRadius)),
-        Offset(size.width / 2 - outRadius, outPoint.getY(size.width / 2 - outRadius)),
-        Offset(outPoint.getX(size.height / 2 - outRadius), size.height / 2 - outRadius),
-        Offset(outPoint.getX(size.height / 2 + outRadius), size.height / 2 + outRadius),
-      ],
-      Paint()
-        ..strokeWidth = 5.0
-        ..strokeCap = StrokeCap.round,
-    );
-
-    // inCircle
-    canvas.drawCircle(
-      center,
-      inRadius,
-      Paint()..style = PaintingStyle.stroke,
-    );
-
-    canvas.drawPoints(
-      PointMode.points,
-      [
-        Offset(size.width / 2 + inRadius, inPoint.getY(size.width / 2 + inRadius)),
-        Offset(size.width / 2 - inRadius, inPoint.getY(size.width / 2 - inRadius)),
-        Offset(inPoint.getX(size.height / 2 - inRadius), size.height / 2 - inRadius),
-        Offset(inPoint.getX(size.height / 2 + inRadius), size.height / 2 + inRadius),
-      ],
-      Paint()
-        ..strokeWidth = 5.0
-        ..strokeCap = StrokeCap.round,
-    );
   }
 
   @override
