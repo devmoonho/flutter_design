@@ -77,7 +77,7 @@ class Blob extends CustomPainter {
     final double padding = 10;
     double outRadius = math.min(size.width, size.height) / 2 - padding;
     double inRadius = math.min(size.width, size.height) / 6 - padding;
-    int count = 10;
+    int count = 7;
 
     List<Offset> outPoints = getPoint(center, count, outRadius);
     List<Offset> inPoints = getPoint(center, count, inRadius);
@@ -122,11 +122,11 @@ class Blob extends CustomPainter {
           ),
         );
 
-    List<Offset> randomPoints = List.generate(count, (i) => cp.getRandomOffset(inPoints[i], outPoints[i]));
+    List<Offset> ranP = List.generate(count, (i) => cp.getRandomOffset(inPoints[i], outPoints[i]));
 
     canvas.drawPoints(
       PointMode.points,
-      randomPoints,
+      ranP,
       Paint()
         ..color = Colors.blue
         ..strokeWidth = 5.0
@@ -134,20 +134,36 @@ class Blob extends CustomPainter {
     );
 
     var path = new Path();
-    path.moveTo(randomPoints[0].dx, randomPoints[0].dy);
-    randomPoints.forEach((e) {
-      path.quadraticBezierTo(e.dx, e.dy, e.dx, e.dy);
+    List<List<double>> curves = _createCurves(ranP);
+    Offset mid = (ranP[0] + ranP[1]) / 2;
+    path.moveTo(mid.dx, mid.dy);
+    curves.forEach((curve) {
+      path.quadraticBezierTo(curve[0], curve[1], curve[2], curve[3]);
     });
-
     path.close();
 
     canvas.drawPath(
       path,
       Paint()
         ..color = Colors.amber
-        ..strokeWidth = 10.0
-        ..style = PaintingStyle.fill,
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke,
     );
+  }
+
+  List<List<double>> _createCurves(List<Offset> points) {
+    List<List<double>> curves = [];
+    List<Offset> breakpoints = [];
+    Offset mid = (points[0] + points[1]) / 2;
+    breakpoints.add(mid);
+    for (var i = 0; i < points.length; i++) {
+      var p1 = points[(i + 1) % points.length];
+      var p2 = points[(i + 2) % points.length];
+      mid = (p1 + p2) / 2;
+      breakpoints.add(mid);
+      curves.add([p1.dx, p1.dy, mid.dx, mid.dy]);
+    }
+    return curves;
   }
 
   @override
